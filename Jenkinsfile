@@ -2,31 +2,25 @@ pipeline {
     agent any
 
     tools {
-        nodejs "NodeJS_18" 
+        nodejs "NodeJS_18"
     }
 
     stages {
-        stage('Clone Repo') {
-            steps {
-                git url: 'https://github.com/samarthVidealpha/test-jenkins.git', branch: 'master'
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
             }
         }
 
-        stage('Run Build') {
+        stage('Build') {
             steps {
                 sh 'npm run build'
             }
         }
 
-        stage('Archive Build') {
+        stage('Test') {
             steps {
-                archiveArtifacts artifacts: 'build/**', fingerprint: true
+                sh 'npm test'
             }
         }
     }
